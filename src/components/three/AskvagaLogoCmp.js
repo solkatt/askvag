@@ -11,8 +11,7 @@ export default function AskvagLogo(props) {
   const { nodes, materials } = useGLTF('/askvagaLogoCmp.glb')
 
   // Set up state for the hovered and active state
-  const [hovered, setHover] = useState(false)
-  const [active, setActive] = useState(false)
+  // const [hovered, setHover] = useState(false)
 
 
 
@@ -31,10 +30,10 @@ export default function AskvagLogo(props) {
         position={[0, 0, 0]}
         scale={[5.35, 5.35, 5.35]}
 
-        onClick={(event) => setActive(!active)}
-        onPointerOver={(event) => setHover(true)}
-        onPointerOut={(event) => setHover(false)}>
-    >  <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} /></mesh>
+        // onPointerOver={(event) => setHover(true)}
+        // onPointerOut={(event) => setHover(false)}
+        >
+      <meshStandardMaterial color={'white'} /></mesh>
     </group>
   )
 }
