@@ -73,6 +73,7 @@ function Scene() {
     <Suspense fallback={null}>
       <AskvagLogo position={[-1.2, 0, 0]} />
       {/* <Box position={[-1.2, 0, 0]} />  */}
+    {/* <Title /> */}
     </Suspense>
     {/* <AskvagText/> */}
 
@@ -101,7 +102,7 @@ export default function ThreeScene() {
       <Effects>
         {/* <bloomPass attachArray='passes'/> */}
         {/* <glitchPass attachArray='passes' /> */}
-        <halftonePass attachArray='passes' />
+        {/* <halftonePass attachArray='passes' /> */}
       </Effects>
 
 
