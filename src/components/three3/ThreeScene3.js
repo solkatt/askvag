@@ -7,11 +7,14 @@ import { PCFSoftShadowMap } from 'three'
 
 extend({ OrbitControls })
 
+//TODO:
+//// Context
+
 const Box = () => {
 	const meshRef = useRef()
 	const [hovered, setHovered] = useState(false)
 	const [active, setActive] = useState(false)
-	const props = useSpring({
+	const spring = useSpring({
 		scale: active ? [1.5, 1.5, 1.5] : [1, 1, 1],
 		color: hovered ? 'hotpink' : 'gray',
 	})
@@ -26,7 +29,7 @@ const Box = () => {
 			onPointerOver={() => setHovered(true)}
 			onPointerOut={() => setHovered(false)}
 			onClick={() => setActive(!active)}
-			scale={props.scale}
+			scale={spring.scale}
 			castShadow
 			// scale={active ? [1.5, 1.5 , 1.5] : [1,1,1]}
 		>
@@ -34,12 +37,13 @@ const Box = () => {
 			{/* <a.meshBasicMaterial
                 attach="material"
                 color={props.color} /> */}
-			<a.meshPhysicalMaterial attach='material' color={props.color} />
+			<a.meshPhysicalMaterial attach='material' color={spring.color} />
 		</a.mesh>
 	)
 }
 
-const Plane = () => {
+const Plane = (props) => {
+	console.log('Plane porps', props)
 	return (
 		<mesh
 			rotation={[-Math.PI / 2, 0, 0]}
@@ -47,7 +51,7 @@ const Plane = () => {
 			receiveShadow
 		>
 			<planeBufferGeometry attach='geometry' args={[100, 100]} />
-			<meshPhysicalMaterial attach='material' color='red' />
+			<meshPhysicalMaterial attach='material' color={props.props.color} />
 		</mesh>
 	)
 }
@@ -72,15 +76,7 @@ const Controls = () => {
 	)
 }
 
-const ButtonTest = () => {
-	return (
-		<div>
-			<h2>Test</h2>
-		</div>
-	)
-}
-
-export default function ThreeScene2() {
+function Scene(props) {
 	return (
 		<Canvas
 			camera={{ position: [0, 0, 5] }}
@@ -94,7 +90,32 @@ export default function ThreeScene2() {
 			<spotLight position={[0, 5, 10]} penumbra={0.7} castShadow />
 			<Controls />
 			<Box />
-			<Plane />
+			<Plane props={props} />
 		</Canvas>
+	)
+}
+
+const ButtonTest = (props) => {
+	const showProps = () => {
+		console.log(props)
+	}
+	return (
+		<div>
+			<h1>Test</h1>
+			<button onClick={() => showProps()}>Props</button>
+
+			<button onClick={() => props.changeColor('red')}>Click</button>
+		</div>
+	)
+}
+
+export default function ThreeScene3() {
+	const [color, setColor] = useState('white')
+
+	return (
+		<>
+			<ButtonTest changeColor={setColor} />
+			<Scene color={color} />
+		</>
 	)
 }
