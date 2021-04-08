@@ -43,7 +43,6 @@ const Box = () => {
 }
 
 const Plane = (props) => {
-	console.log('Plane porps', props)
 	return (
 		<mesh
 			rotation={[-Math.PI / 2, 0, 0]}
@@ -76,10 +75,92 @@ const Controls = () => {
 	)
 }
 
+const ButtonTest = (props) => {
+	const { setCameraPos, changeColor } = props
+
+	const cameraScene = {
+		home: {
+			x: 1,
+			y: 2,
+			z: 3,
+		},
+		portfolio: {
+			x: 10,
+			y: 5,
+			z: 3,
+		},
+	}
+
+	const showProps = () => {
+		console.log(props)
+	}
+	return (
+		<div>
+			<h1 style={{ fontSize: '3rem' }}>Test</h1>
+			<button onClick={() => showProps()}>Props</button>
+			<button onClick={() => changeColor('red')}>Click</button>
+
+			<button onClick={() => setCameraPos(cameraScene.home)}>
+				MENU 1
+			</button>
+			<button onClick={() => setCameraPos(cameraScene.portfolio)}>
+				MENU 2
+			</button>
+		</div>
+	)
+}
+
+function Dolly(props) {
+	const { cameraPos } = props
+
+	// const spring = useSpring({
+	// 	scale: active ? [1.5, 1.5, 1.5] : [1, 1, 1],
+	// 	// color: hovered ? 'hotpink' : 'gray',
+	// })
+
+	const initCameraPos = {
+		x: 0,
+		y: 0,
+		z: 5,
+	}
+
+	const { x, y, z } = useSpring({
+		from: { x: initCameraPos.x },
+		x: cameraPos.x,
+
+		from: { y: initCameraPos.y },
+		y: cameraPos.y,
+
+		from: { z: initCameraPos.z },
+		z: cameraPos.z,
+
+		config: {
+			mass: 0.1,
+			tension: 200,
+			friction: 180,
+		},
+		// onRest: () => setDollyFinished(true)
+	})
+
+	useFrame(({ clock, camera }) => {
+		// camera.position.z = 1 + Math.sin(clock.getElapsedTime()) * 10
+
+		// camera.rotation.y += 0.005
+
+		camera.position.x = x.value
+		camera.position.y = y.value
+		camera.position.z = z.value
+	})
+	return null
+}
+
 function Scene(props) {
+	const { cameraPos } = props
+
 	return (
 		<Canvas
-			camera={{ position: [0, 0, 5] }}
+			// camera={{ position: [3, 2, 5] }}
+			// camera={{ position: [0, 1, 1] }}
 			onCreated={({ gl }) => {
 				gl.shadowMap.enabled = true
 				gl.shadowMap.type = PCFSoftShadowMap
@@ -88,34 +169,23 @@ function Scene(props) {
 			<fog attach='fog' args={['white', 1, 15]} />
 			<ambientLight intensity={1} />
 			<spotLight position={[0, 5, 10]} penumbra={0.7} castShadow />
-			<Controls />
+			{/* <Controls /> */}
+
 			<Box />
 			<Plane props={props} />
+			<Dolly cameraPos={cameraPos} />
 		</Canvas>
-	)
-}
-
-const ButtonTest = (props) => {
-	const showProps = () => {
-		console.log(props)
-	}
-	return (
-		<div>
-			<h1>Test</h1>
-			<button onClick={() => showProps()}>Props</button>
-
-			<button onClick={() => props.changeColor('red')}>Click</button>
-		</div>
 	)
 }
 
 export default function ThreeScene3() {
 	const [color, setColor] = useState('white')
-
+	const [cameraPos, setCameraPos] = useState({ x: 0, y: 0, z: 5 })
 	return (
 		<>
-			<ButtonTest changeColor={setColor} />
-			<Scene color={color} />
+			{/* <h1>{cameraPos}</h1> */}
+			<ButtonTest changeColor={setColor} setCameraPos={setCameraPos} />
+			<Scene color={color} cameraPos={cameraPos} />
 		</>
 	)
 }

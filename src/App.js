@@ -5,9 +5,9 @@ import Spring from './components/spring/Spring'
 function App() {
 	return (
 		<div className='App'>
-			<Spring />
+			{/* <Spring /> */}
 
-			{/* <Hero /> */}
+			<Hero />
 		</div>
 	)
 }
