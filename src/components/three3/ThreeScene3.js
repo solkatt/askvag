@@ -10,6 +10,20 @@ extend({ OrbitControls })
 //TODO:
 //// Context
 
+const HomeObject = () => {
+	return (
+		<mesh position={[1, 1, 1]} rotation={[Math.PI / 1.1, -0.2, 0]}>
+			<boxBufferGeometry attach='geometry' args={[3, 2, 0.5]} />
+
+			<meshPhysicalMaterial
+				attach='material'
+				// wireframe={true}
+				color='red'
+			/>
+		</mesh>
+	)
+}
+
 const Box = () => {
 	const meshRef = useRef()
 	const [hovered, setHovered] = useState(false)
@@ -81,13 +95,17 @@ const ButtonTest = (props) => {
 	const cameraScene = {
 		home: {
 			x: 1,
-			y: 2,
-			z: 3,
+			y: 0,
+			z: 2,
+			rx: 0.7,
+			ry: 0,
 		},
 		portfolio: {
 			x: 10,
 			y: 5,
 			z: 3,
+			rx: 0,
+			ry: 0,
 		},
 	}
 
@@ -122,9 +140,11 @@ function Dolly(props) {
 		x: 0,
 		y: 0,
 		z: 5,
+		rx: 0,
+		ry: 0,
 	}
 
-	const { x, y, z } = useSpring({
+	const { x, y, z, rx, ry } = useSpring({
 		from: { x: initCameraPos.x },
 		x: cameraPos.x,
 
@@ -150,6 +170,8 @@ function Dolly(props) {
 		camera.position.x = x.value
 		camera.position.y = y.value
 		camera.position.z = z.value
+
+		// camera.rotation.z = 0.4
 	})
 	return null
 }
@@ -172,6 +194,7 @@ function Scene(props) {
 			{/* <Controls /> */}
 
 			<Box />
+			<HomeObject />
 			<Plane props={props} />
 			<Dolly cameraPos={cameraPos} />
 		</Canvas>
