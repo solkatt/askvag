@@ -1,204 +1,248 @@
-import './style.css'
+import React, { useState, useRef, useEffect, Suspense } from 'react'
+import {
+	Canvas,
+	useFrame,
+	extend,
+	useThree,
+	useLoader,
+} from 'react-three-fiber'
+import { useSpring, a } from 'react-spring/three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import * as dat from 'dat.gui'
-
-import gsap from 'gsap'
+import { PCFSoftShadowMap } from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
+import { useGLTF } from '@react-three/drei'
 
-const btn = document.querySelector('.btn')
-let keyState = false
+// import Model from './ShapeKeys'
 
-btn.addEventListener('click', () => {
-	// gsap.to(mesh.position, { y: 1, duration: 1 })
-	keyState = !keyState
+extend({ OrbitControls })
 
-	if (keyState) {
-		gsap.to(mesh.morphTargetInfluences, {
-			[1]: 1,
-			duration: 1,
-		})
+const Model = (props) => {
+	const group = useRef()
+	const { nodes, materials } = useGLTF('/ShapeKeys.glb')
+	const ref = useRef()
 
-		gsap.to(camera.position, {
-			z: 4,
-			duration: 1,
-		})
-	} else {
-		gsap.to(mesh.morphTargetInfluences, { [1]: 0, duration: 1 })
-		gsap.to(camera.position, {
-			z: 3,
-			duration: 1,
-		})
-	}
-	// mesh.morphTargetInfluences[1] = 0
-})
+	const [active, setActive] = useState(false)
+	const [active2, setActive2] = useState(false)
 
-// Instantiate a loader
-
-const loader = new GLTFLoader()
-
-const dracoLoader = new DRACOLoader()
-dracoLoader.setDecoderPath('/examples/js/libs/draco/')
-loader.setDRACOLoader(dracoLoader)
-
-const handleAnimation = () => {}
-
-// // Load a glTF resource
-// loader.load(
-// 	// resource URL
-// 	'/ShapeKeys.glb',
-// 	// called when the resource is loaded
-// 	function (gltf) {
-// 		scene.add(gltf.scene)
-
-// 		gltf.animations // Array<THREE.AnimationClip>
-// 		gltf.scene // THREE.Group
-// 		gltf.scenes // Array<THREE.Group>
-// 		gltf.cameras // Array<THREE.Camera>
-// 		gltf.asset // Object
-
-// 		console.log(gltf)
-// 	},
-// 	// called while loading is progressing
-// 	function (xhr) {
-// 		console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
-// 	},
-// 	// called when loading has errors
-// 	function (error) {
-// 		console.log('An error happened')
-// 		console.log('error:', error)
-// 	}
-// )
-// // async function loadingSucces() {
-// //     await loader.loadAsync('../static/models/ShapeKeys.glb')
-// // }
-
-// Debug
-const gui = new dat.GUI()
-
-// Canvas
-const canvas = document.querySelector('canvas.webgl')
-
-// Scene
-const scene = new THREE.Scene()
-
-// Objects
-let mesh = {}
-
-const loadModels = async () => {
-	const [shapeData] = await Promise.all([loader.loadAsync('/ShapeKeys.glb')])
-
-	const shape = shapeData.scene.children[0]
-
-	console.log('Squaaawk!', shape)
-	// scene.add(shape)
-	return shape
-	// shape.morphTargetInfluences[0] = 0
-}
-
-const init = async () => {
-	await loadModels().then((data) => {
-		mesh = data
-		scene.add(mesh)
-		mesh.rotation.y = 180
-		mesh.morphTargetInfluences[1] = 0
-
-		mesh.material.roughness = 0.1
-		mesh.material.metalness = 0.5
-
-		console.log(mesh.material.metalness)
+	const spring = useSpring({
+		scale: active ? [1, 1.5, 1.5] : [1, 1, 1],
+		position: active2 ? [1, 1.5, 1.5] : [1, 1, 1],
 	})
+	useFrame(() => {
+		// let scale = (ref.current.scale.x +=
+		// 	((active ? 1.5 : 1) - ref.current.scale.x) * 0.1)
+		// ref.current.scale.set(scale, scale, scale)
+
+		let morph = ref.current.morphTargetInfluences
+
+		morph[0] = 0
+
+		// console.log(ref.current)
+	})
+
+	return (
+		<group ref={group} {...props} dispose={null}>
+			<a.mesh
+				ref={ref}
+				name='Cube'
+				geometry={nodes.Cube.geometry}
+				material={materials.Material}
+				morphTargetDictionary={nodes.Cube.morphTargetDictionary}
+				morphTargetInfluences={nodes.Cube.morphTargetInfluences}
+				onPointerOver={() => setActive(true)}
+				onPointerOut={() => setActive(false)}
+				onClick={() => setActive2(!active2)}
+				scale={spring.scale}
+				position={spring.position}
+			/>
+		</group>
+	)
 }
 
-init()
+//TODO:
+//// Context
 
-// shape.position.x = 2
-// model.position
-// Lights
+// ShapeKeys = () => {
+// 	const gltf = useLoader(GLTFLoader, gltfFile)
 
-const pointLight = new THREE.PointLight(0xffffff, 0.5)
-pointLight.position.x = 2
-pointLight.position.y = 3
-pointLight.position.z = 4
-scene.add(pointLight)
+// 	return <primitive object={gltf.scene} position={[0, 0, 0]} />
+// }
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 1)
-ambientLight.position.x = 20
-ambientLight.position.y = 10
-ambientLight.position.z = 4
-scene.add(ambientLight)
+/////
 
-/**
- * Sizes
- */
-const sizes = {
-	width: window.innerWidth,
-	height: window.innerHeight,
+const Box = () => {
+	const meshRef = useRef()
+	const [hovered, setHovered] = useState(false)
+	const [active, setActive] = useState(false)
+	const spring = useSpring({
+		scale: active ? [1.5, 1.5, 1.5] : [1, 1, 1],
+		color: hovered ? 'hotpink' : 'gray',
+	})
+
+	useFrame(() => {
+		// 	//meshRef.current.rotation.y += 0.005
+	})
+
+	return (
+		<a.mesh
+			ref={meshRef}
+			onPointerOver={() => setHovered(true)}
+			onPointerOut={() => setHovered(false)}
+			onClick={() => setActive(!active)}
+			scale={spring.scale}
+			castShadow
+			// scale={active ? [1.5, 1.5 , 1.5] : [1,1,1]}
+		>
+			<boxBufferGeometry attach='geometry' args={[1, 1, 1]} />
+			{/* <a.meshBasicMaterial
+                attach="material"
+                color={props.color} /> */}
+			<a.meshPhysicalMaterial attach='material' color={spring.color} />
+		</a.mesh>
+	)
 }
 
-window.addEventListener('resize', () => {
-	// Update sizes
-	sizes.width = window.innerWidth
-	sizes.height = window.innerHeight
-
-	// Update camera
-	camera.aspect = sizes.width / sizes.height
-	camera.updateProjectionMatrix()
-
-	// Update renderer
-	renderer.setSize(sizes.width, sizes.height)
-	renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-})
-
-/**
- * Camera
- */
-// Base camera
-const camera = new THREE.PerspectiveCamera(
-	75,
-	sizes.width / sizes.height,
-	0.1,
-	100
-)
-camera.position.x = 0
-camera.position.y = 0
-camera.position.z = 3
-scene.add(camera)
-
-// Controls
-const controls = new OrbitControls(camera, canvas)
-controls.enableDamping = true
-
-/**
- * Renderer
- */
-const renderer = new THREE.WebGLRenderer({
-	canvas: canvas,
-})
-renderer.setSize(sizes.width, sizes.height)
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-
-/**
- * Animate
- */
-
-const clock = new THREE.Clock()
-
-const tick = () => {
-	const elapsedTime = clock.getElapsedTime()
-
-	// Update objects
-	// sphere.rotation.y = 0.5 * elapsedTime
-
-	// Update Orbital Controls
-	controls.update()
-
-	// Render
-	renderer.render(scene, camera)
-
-	// Call tick again on the next frame
-	window.requestAnimationFrame(tick)
+const Plane = (props) => {
+	return (
+		<mesh
+			rotation={[-Math.PI / 2, 0, 0]}
+			position={[0, -0.5, 0]}
+			receiveShadow
+		>
+			<planeBufferGeometry attach='geometry' args={[100, 100]} />
+			<meshPhysicalMaterial attach='material' color={props.props.color} />
+		</mesh>
+	)
 }
 
-tick()
+const ButtonTest = (props) => {
+	const { setCameraPos, changeColor } = props
+
+	const cameraScene = {
+		home: {
+			x: 1,
+			y: 0,
+			z: 2,
+			rx: 0.7,
+			ry: 0,
+		},
+		portfolio: {
+			x: 10,
+			y: 5,
+			z: 3,
+			rx: 0,
+			ry: 0,
+		},
+	}
+
+	const showProps = () => {
+		console.log(props)
+	}
+	return (
+		<div>
+			<h1 style={{ fontSize: '3rem' }}>Test</h1>
+			<button onClick={() => showProps()}>Props</button>
+			<button onClick={() => changeColor('red')}>Click</button>
+
+			<button onClick={() => setCameraPos(cameraScene.home)}>
+				MENU 1
+			</button>
+			<button onClick={() => setCameraPos(cameraScene.portfolio)}>
+				MENU 2
+			</button>
+		</div>
+	)
+}
+
+function Dolly(props) {
+	const { cameraPos } = props
+
+	// const spring = useSpring({
+	// 	scale: active ? [1.5, 1.5, 1.5] : [1, 1, 1],
+	// 	// color: hovered ? 'hotpink' : 'gray',
+	// })
+
+	const initCameraPos = {
+		x: 0,
+		y: 0,
+		z: 5,
+		rx: 0,
+		ry: 0,
+	}
+
+	const { x, y, z, rx, ry } = useSpring({
+		from: { x: initCameraPos.x },
+		x: cameraPos.x,
+
+		from: { y: initCameraPos.y },
+		y: cameraPos.y,
+
+		from: { z: initCameraPos.z },
+		z: cameraPos.z,
+
+		config: {
+			mass: 0.1,
+			tension: 200,
+			friction: 180,
+		},
+		// onRest: () => setDollyFinished(true)
+	})
+
+	useFrame(({ clock, camera }) => {
+		// camera.position.z = 1 + Math.sin(clock.getElapsedTime()) * 10
+
+		// camera.rotation.y += 0.005
+
+		camera.position.x = x.value
+		camera.position.y = y.value
+		camera.position.z = z.value
+
+		// camera.rotation.z = 0.4
+	})
+	return null
+}
+
+function Scene(props) {
+	const { cameraPos } = props
+
+	return (
+		<Canvas
+			// camera={{ position: [3, 2, 5] }}
+			// camera={{ position: [0, 1, 1] }}
+			onCreated={({ gl }) => {
+				gl.shadowMap.enabled = true
+				gl.shadowMap.type = PCFSoftShadowMap
+			}}
+		>
+			<fog attach='fog' args={['white', 1, 15]} />
+			<ambientLight intensity={1} />
+			<spotLight position={[0, 5, 10]} penumbra={0.7} castShadow />
+			{/* <Controls /> */}
+
+			<Suspense fallback={null}>
+				{/* <Model position={[0, 1, 0]}/> */}
+
+				{/* <Obj /> */}
+				<Model />
+			</Suspense>
+			<Plane props={props} />
+			<Dolly cameraPos={cameraPos} />
+		</Canvas>
+	)
+}
+
+export default function ThreeScene3() {
+	const [color, setColor] = useState('white')
+	const [cameraPos, setCameraPos] = useState({ x: 0, y: 0, z: 5 })
+
+	return (
+		<>
+			{/* <h1>{cameraPos}</h1> */}
+			<ButtonTest changeColor={setColor} setCameraPos={setCameraPos} />
+			<Scene color={color} cameraPos={cameraPos} />
+		</>
+	)
+}
+
+useGLTF.preload('/ShapeKeys.glb')
