@@ -25,11 +25,12 @@ const Model = (props) => {
 	let { morphState } = props
 
 	const [active, setActive] = useState(false)
+
 	const [active2, setActive2] = useState(false)
 
 	const spring = useSpring({
 		scale: active ? [1, 1.5, 1.5] : [1, 1, 1],
-		position: active2 ? [1, -1, 1.5] : [1, 1, 1],
+		position: active2 ? [1, -1, 1.5] : [1, -1, 1],
 	})
 
 	const handleMorphChange = () => {
@@ -41,15 +42,16 @@ const Model = (props) => {
 		// from: { x: 0 },
 		// x: 1,
 
-		x: active ? 1 : 0,
+		x: active ? morphState.value : 0,
 
 		// from: { z: initCameraPos.z },
 		// z: cameraPos.z,
 
 		config: {
-			mass: 0.1,
-			tension: 200,
-			friction: 180,
+			mass: 1,
+			tension: 180,
+			friction: 12,
+			bounce: 2,
 		},
 		// onRest: () => setDollyFinished(true)
 	})
