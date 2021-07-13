@@ -26,26 +26,33 @@ const Model = (props) => {
 
 	const [active, setActive] = useState(false)
 
-	const [active2, setActive2] = useState(false)
-
 	const spring = useSpring({
 		scale: active ? [1, 1.5, 1.5] : [1, 1, 1],
-		position: active2 ? [1, -1, 1.5] : [1, -1, 1],
+		position: active ? [1, -1, 1.5] : [1, -1, 1],
 	})
 
 	const handleMorphChange = () => {
-		console.log(morphState)
-		console.log(active)
+		console.log('morphState', morphState)
+
+		console.log('[0]', ref.current.morphTargetInfluences[0])
+
+		console.log('[1]', ref.current.morphTargetInfluences[1])
 	}
 
-	const { x } = useSpring({
-		// from: { x: 0 },
-		// x: 1,
+	const { morphAnim0, morphAnim1 } = useSpring({
+		morphAnim0:
+			morphState.index === 0 && morphState.value === 1
+				? 1
+				: morphState.index === 0 && morphState.value === 0
+				? 0
+				: 0,
 
-		x: active ? morphState.value : 0,
-
-		// from: { z: initCameraPos.z },
-		// z: cameraPos.z,
+		morphAnim1:
+			morphState.index === 1 && morphState.value === 1
+				? 1
+				: morphState.index === 1 && morphState.value === 0
+				? 0
+				: 0,
 
 		config: {
 			mass: 1,
@@ -63,13 +70,12 @@ const Model = (props) => {
 		// 	((active ? 1.5 : 1) - ref.current.scale.x) * 0.1)
 		// ref.current.scale.set(scale, scale, scale)
 
-		let morph = ref.current.morphTargetInfluences
+		let morphTarget = ref.current.morphTargetInfluences
 
-		//morph[morphTarget.index] = morphTarget.value
-		// morph[0] = spring.morphTarget
+		morphTarget[0] = morphAnim0.value
+		morphTarget[1] = morphAnim1.value
 
-		// morph[0] = morphState.value
-		morph[morphState.index] = x.value
+		// console.log(morph[0])
 		ref.current.rotation.y += 0.005
 		// ref.current.scale = [2, 2, 2]
 	})
@@ -85,25 +91,13 @@ const Model = (props) => {
 				morphTargetInfluences={nodes.Cube.morphTargetInfluences}
 				onPointerOver={() => setActive(true)}
 				onPointerOut={() => setActive(false)}
-				onClick={() => setActive2(!active2)}
 				onClick={() => handleMorphChange()}
 				// scale={spring.scale}
-				position={spring.position}
+				position={[1, 0.5, 0]}
 			></a.mesh>
 		</group>
 	)
 }
-
-//TODO:
-//// Context
-
-// ShapeKeys = () => {
-// 	const gltf = useLoader(GLTFLoader, gltfFile)
-
-// 	return <primitive object={gltf.scene} position={[0, 0, 0]} />
-// }
-
-/////
 
 const Plane = (props) => {
 	return (
