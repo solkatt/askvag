@@ -22,13 +22,40 @@ const Model = (props) => {
 	const { nodes, materials } = useGLTF('/ShapeKeys.glb')
 	const ref = useRef()
 
+	let { morphState } = props
+
 	const [active, setActive] = useState(false)
 	const [active2, setActive2] = useState(false)
 
 	const spring = useSpring({
 		scale: active ? [1, 1.5, 1.5] : [1, 1, 1],
-		position: active2 ? [1, 1.5, 1.5] : [1, 1, 1],
+		position: active2 ? [1, -1, 1.5] : [1, 1, 1],
 	})
+
+	const handleMorphChange = () => {
+		console.log(morphState)
+		console.log(active)
+	}
+
+	const { x } = useSpring({
+		// from: { x: 0 },
+		// x: 1,
+
+		x: active ? 1 : 0,
+
+		// from: { z: initCameraPos.z },
+		// z: cameraPos.z,
+
+		config: {
+			mass: 0.1,
+			tension: 200,
+			friction: 180,
+		},
+		// onRest: () => setDollyFinished(true)
+	})
+
+	useEffect(() => {})
+
 	useFrame(() => {
 		// let scale = (ref.current.scale.x +=
 		// 	((active ? 1.5 : 1) - ref.current.scale.x) * 0.1)
@@ -36,9 +63,13 @@ const Model = (props) => {
 
 		let morph = ref.current.morphTargetInfluences
 
-		morph[0] = 0
+		//morph[morphTarget.index] = morphTarget.value
+		// morph[0] = spring.morphTarget
 
-		// console.log(ref.current)
+		// morph[0] = morphState.value
+		morph[morphState.index] = x.value
+		ref.current.rotation.y += 0.005
+		// ref.current.scale = [2, 2, 2]
 	})
 
 	return (
@@ -53,9 +84,10 @@ const Model = (props) => {
 				onPointerOver={() => setActive(true)}
 				onPointerOut={() => setActive(false)}
 				onClick={() => setActive2(!active2)}
-				scale={spring.scale}
+				onClick={() => handleMorphChange()}
+				// scale={spring.scale}
 				position={spring.position}
-			/>
+			></a.mesh>
 		</group>
 	)
 }
@@ -71,38 +103,6 @@ const Model = (props) => {
 
 /////
 
-const Box = () => {
-	const meshRef = useRef()
-	const [hovered, setHovered] = useState(false)
-	const [active, setActive] = useState(false)
-	const spring = useSpring({
-		scale: active ? [1.5, 1.5, 1.5] : [1, 1, 1],
-		color: hovered ? 'hotpink' : 'gray',
-	})
-
-	useFrame(() => {
-		// 	//meshRef.current.rotation.y += 0.005
-	})
-
-	return (
-		<a.mesh
-			ref={meshRef}
-			onPointerOver={() => setHovered(true)}
-			onPointerOut={() => setHovered(false)}
-			onClick={() => setActive(!active)}
-			scale={spring.scale}
-			castShadow
-			// scale={active ? [1.5, 1.5 , 1.5] : [1,1,1]}
-		>
-			<boxBufferGeometry attach='geometry' args={[1, 1, 1]} />
-			{/* <a.meshBasicMaterial
-                attach="material"
-                color={props.color} /> */}
-			<a.meshPhysicalMaterial attach='material' color={spring.color} />
-		</a.mesh>
-	)
-}
-
 const Plane = (props) => {
 	return (
 		<mesh
@@ -117,7 +117,7 @@ const Plane = (props) => {
 }
 
 const ButtonTest = (props) => {
-	const { setCameraPos, changeColor } = props
+	const { setCameraPos, changeColor, setMorphState } = props
 
 	const cameraScene = {
 		home: {
@@ -151,17 +151,22 @@ const ButtonTest = (props) => {
 			<button onClick={() => setCameraPos(cameraScene.portfolio)}>
 				MENU 2
 			</button>
+			<button onClick={() => setMorphState({ index: 0, value: 0 })}>
+				Morph State 0 / 0
+			</button>
+
+			<button onClick={() => setMorphState({ index: 0, value: 1 })}>
+				Morph State 0 / 1
+			</button>
+			<button onClick={() => setMorphState({ index: 1, value: 1 })}>
+				Morph State 1 / 1
+			</button>
 		</div>
 	)
 }
 
 function Dolly(props) {
 	const { cameraPos } = props
-
-	// const spring = useSpring({
-	// 	scale: active ? [1.5, 1.5, 1.5] : [1, 1, 1],
-	// 	// color: hovered ? 'hotpink' : 'gray',
-	// })
 
 	const initCameraPos = {
 		x: 0,
@@ -204,7 +209,7 @@ function Dolly(props) {
 }
 
 function Scene(props) {
-	const { cameraPos } = props
+	const { cameraPos, morphState } = props
 
 	return (
 		<Canvas
@@ -224,9 +229,9 @@ function Scene(props) {
 				{/* <Model position={[0, 1, 0]}/> */}
 
 				{/* <Obj /> */}
-				<Model />
+				<Model morphState={morphState} receiveShadow castShadow />
 			</Suspense>
-			<Plane props={props} />
+			<Plane props={props} receiveShadow />
 			<Dolly cameraPos={cameraPos} />
 		</Canvas>
 	)
@@ -235,12 +240,21 @@ function Scene(props) {
 export default function ThreeScene3() {
 	const [color, setColor] = useState('white')
 	const [cameraPos, setCameraPos] = useState({ x: 0, y: 0, z: 5 })
+	const [morphState, setMorphState] = useState({ index: 0, value: 0 })
 
 	return (
 		<>
 			{/* <h1>{cameraPos}</h1> */}
-			<ButtonTest changeColor={setColor} setCameraPos={setCameraPos} />
-			<Scene color={color} cameraPos={cameraPos} />
+			<ButtonTest
+				changeColor={setColor}
+				setCameraPos={setCameraPos}
+				setMorphState={setMorphState}
+			/>
+			<Scene
+				color={color}
+				cameraPos={cameraPos}
+				morphState={morphState}
+			/>
 		</>
 	)
 }
