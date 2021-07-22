@@ -9,8 +9,9 @@ import './Hero.css'
 export default function Hero() {
 	return (
 		<div className='hero-container'>
-			<div className='askvag'>{/* <h1>ÅSKVÅG</h1> */}</div>
+			{/* <div className='askvag'><h1>ÅSKVÅG</h1></div> */}
 			<ThreeScene4 className='three-scene' />
+	
 		</div>
 	)
 }

@@ -1,0 +1,59 @@
+
+.work-grid {
+    color: lighten(gray,25%);
+    background-color: lighten(skyblue, 60%);
+
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    background: black;
+  }
+
+
+  .items {
+
+   
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    transition: all 0.2s;
+    transform: scale(1);
+    will-change: transform;
+    user-select: none;
+    cursor: pointer;
+    /* scroll-behavior: smooth; */
+
+  }
+
+
+  .item {
+    display: inline-block;
+    background: skyblue;
+    min-height: 250px;
+    
+    min-width: 400px;
+    margin: 2em 1em;
+    @media screen and (max-width: 500px) {
+      min-height: 200px;
+      min-width: 200px;
+    }
+    
+
+  }
+
+  .item1 {
+    margin-left: 30vh;
+  }
+
+  .active {
+      background: rgba(255,255,255,0.3);
+      cursor: grabbing;
+      cursor: -webkit-grabbing;
+      transform: scale(1.05);
+  }
+
+.js-image {
+    height: 500px;
+    object-fit: contain;
+}
