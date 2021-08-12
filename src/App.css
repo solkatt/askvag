@@ -30,5 +30,8 @@ h1 {
 }
 
 .three-scene {
+
+}
+canvas {
   height: 100vh;
 }

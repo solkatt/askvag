@@ -1,0 +1,23 @@
+.project-container {
+position: absolute;
+top: 0;
+width: 100%;
+height: 100%;
+
+
+}
+
+
+.project-top {
+display: flex;
+width: 100%;
+height: 50vh;
+
+}
+
+
+.project-image {
+  width: 100%;
+  height: 50vh;
+  object-fit: cover;
+}

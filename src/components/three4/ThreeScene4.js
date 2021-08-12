@@ -136,7 +136,7 @@ const ButtonTest = (props) => {
 		console.log(props)
 	}
 	return (
-		<div>
+		<div className="navbar">
 			<h1 style={{ fontSize: '3rem' }}>Test</h1>
 			<button onClick={() => showProps()}>Props</button>
 			<button onClick={() => changeColor('red')}>Click</button>

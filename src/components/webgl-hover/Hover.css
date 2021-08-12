@@ -1,59 +1,76 @@
-
 .work-grid {
-    color: lighten(gray,25%);
-    background-color: lighten(skyblue, 60%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: lighten(gray, 25%);
+  /* background-color: lighten(skyblue, 60%); */
 
-    width: 100%;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    background: black;
+ 
+
+
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+
+}
+
+
+.items {
+
+
+  /*DDSDS */ 
+  height: 100vh; 
+
+
+  padding-top: 40vh;
+  /* background: cyan; */
+  position: relative;
+ 
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  transition: all 0.2s;
+  transform: scale(1);
+  will-change: transform;
+  user-select: none;
+  cursor: pointer;
+  /* scroll-behavior: smooth; */
+
+}
+
+
+.item {
+
+  
+  display: inline-block;
+  /* background: skyblue; */
+  min-height: 250px;
+
+  min-width: 400px;
+  margin: 2em 1em;
+  /* margin: 4vh 2vh; */
+
+  @media screen and (max-width: 500px) {
+    min-height: 200px;
+    min-width: 200px;
   }
 
 
-  .items {
+}
 
-   
-    width: 100%;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    white-space: nowrap;
-    transition: all 0.2s;
-    transform: scale(1);
-    will-change: transform;
-    user-select: none;
-    cursor: pointer;
-    /* scroll-behavior: smooth; */
+.item1 {
+  margin-left: 30vh;
+}
 
-  }
-
-
-  .item {
-    display: inline-block;
-    background: skyblue;
-    min-height: 250px;
-    
-    min-width: 400px;
-    margin: 2em 1em;
-    @media screen and (max-width: 500px) {
-      min-height: 200px;
-      min-width: 200px;
-    }
-    
-
-  }
-
-  .item1 {
-    margin-left: 30vh;
-  }
-
-  .active {
-      background: rgba(255,255,255,0.3);
-      cursor: grabbing;
-      cursor: -webkit-grabbing;
-      transform: scale(1.05);
-  }
+.active {
+  /* background: rgba(255, 255, 255, 0.1); */
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+  /* transform: scale(1.05); */
+}
 
 .js-image {
-    height: 500px;
-    object-fit: contain;
+  height: 500px;
+  object-fit: cover;
 }
