@@ -1,23 +1,37 @@
 .project-container {
 position: absolute;
 top: 0;
-width: 100%;
-height: 100%;
+width: 100vw;
+height: 100vh;
 
+text-align: center;
 
-}
-
-
-.project-top {
-display: flex;
-width: 100%;
-height: 50vh;
+ display: flex; 
+flex-direction: column; 
+justify-content: center;
+align-items: center;
 
 }
 
+
+
+.project-image-container {
+  position: absolute;
+  /* width: 100%;
+  height: 50vh; */
+  /* object-fit: cover; */
+
+  top: 25vh;
+  width: 60vw;
+  height: 60vh;
+
+  overflow: hidden;
+
+
+}
 
 .project-image {
   width: 100%;
-  height: 50vh;
+  /* height: 50vh; */
   object-fit: cover;
 }

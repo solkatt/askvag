@@ -5,7 +5,7 @@ import { AnimatePresence } from 'framer-motion'
 import './App.css'
 import Hero from './components/Hero/Hero'
 import Projects from './components/projects/Projects'
-import Hover from './components/webgl-hover/Hover'
+import CarouselSlider from './components/work/CarouselSlider'
 
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
 								{/* <Hero /> */}
 
 								<Route path="/" exact>
-									<Hover />
+									<CarouselSlider />
 								</Route>
 								<Route path="/work/:id" exact>
 									<Projects />

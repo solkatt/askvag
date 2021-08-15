@@ -6,7 +6,7 @@ import ThreeScene3 from '../three3/ThreeScene3'
 import ThreeScene4 from '../three4/ThreeScene4'
 
 import './Hero.css'
-import Hover from '../webgl-hover/Hover'
+import CarouselSlider from '../work/CarouselSlider'
 
 
 export default function Hero() {

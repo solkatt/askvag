@@ -1,28 +1,47 @@
 import React, { useRef, useEffect } from 'react'
-import * as THREE from 'three'
-import { MeshBasicMaterial, PlaneBufferGeometry, TextureLoader } from 'three'
+
 import './Projects.css'
-import { useSpring, a, config } from 'react-spring/three'
+
+
+import { useParams } from 'react-router-dom';
+
 
 import { motion } from 'framer-motion'
 
+import { projectsData } from '../data/projectsData';
+
+import { HiChevronLeft } from 'react-icons/hi';
+
+
+const transition = { duration: 1.2, ease: [0.43, 0.13, 0.23, 0.96] }
 
 
 const Projects = () => {
 
+    let { id } = useParams();
+
+    const project = projectsData.find(project => {
+        return project.title === id
+    })
+
 
     return (
         <>
+
+
             <motion.div
-                // initial='{{opacity: 0}}'
-                // animate={{opacity: 1}}
+
 
                 initial='initial'
-                animate='animate'
+                animate={{
+                    top: '-25vh',
+                }}
+
                 exit='exit'
+                transition={transition}
                 className='project-container'>
 
-            
+
                 {/* <motion.div
                     className='project-name'
                     initial={{ opacity: 0 }}
@@ -44,29 +63,42 @@ const Projects = () => {
 
                 </motion.div> */}
 
-                <motion.div 
-                // initial={{width:}}
-                className='project-image-container'>
-                    
-                <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
-                    className="project-image" alt='' />
+                <motion.div
 
-                    </motion.div>
+                    initial='initial'
+                    animate={{
 
+                        width: '100%',
+                        transform: 'translatY(20vh)'
+                    }}
 
+                    transition={transition}
+                    className='project-image-container'>
 
-                <motion.div className='project-details'
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}
-                >
-                    <h2>Details</h2>
-                    <p>
-                        Lorem ipsum
-                    </p>
+                    <img src={project.img}
+                        className="project-image" alt='' />
+
+                    <HiChevronLeft />
+
                 </motion.div>
 
 
+
+                {/* <motion.div className='project-details'
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                >
+                    <h2>Details</h2>
+                    <h1 style={{ color: 'green' }}>{project.title}</h1>
+                    <h4 style={{ color: 'green' }}>{project.description}</h4>
+
+
+
+                </motion.div> */}
+
+
             </motion.div>
+
         </>
     )
 
