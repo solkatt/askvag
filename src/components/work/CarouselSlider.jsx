@@ -17,13 +17,16 @@ const swipePower = (offset, velocity) => {
 const CarouselSlider = ({ location }) => {
    
     const history = useHistory()
-    const from = history.location.state.from || {}
+    const from = history.location.state.from || null
 
     const [position, setPosition] = useState(from ? from : 0)
 
     const paginate = (newDirection) => {
         setPosition(position + newDirection)
     }
+
+   console.log(from)
+
 
     const handleClick = (selectedWork) => history.push(`/work/${selectedWork}`)
 
