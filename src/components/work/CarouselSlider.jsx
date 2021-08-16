@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './CarouselSlider.css'
 import { motion } from 'framer-motion'
 import { useHistory } from 'react-router-dom'
@@ -14,18 +14,20 @@ const swipePower = (offset, velocity) => {
     return Math.abs(offset) * velocity
 }
 
-const CarouselSlider = ({ location }) => {
+const CarouselSlider = () => {
 
     const history = useHistory()
-    const from = history.location.state.from || null
+    const { state } = history.location
 
-    const [position, setPosition] = useState(from ? from : 0)
+    // history.location.state.from ? || {}
+
+    const [position, setPosition] = useState(!state ? 0 : state.from)
+
 
     const paginate = (newDirection) => {
         setPosition(position + newDirection)
     }
 
-    console.log(from)
 
 
     const handleClick = (selectedWork) => history.push(`/work/${selectedWork}`)
