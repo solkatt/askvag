@@ -15,7 +15,7 @@ const swipePower = (offset, velocity) => {
 }
 
 const CarouselSlider = ({ location }) => {
-   
+
     const history = useHistory()
     const from = history.location.state.from || null
 
@@ -25,7 +25,7 @@ const CarouselSlider = ({ location }) => {
         setPosition(position + newDirection)
     }
 
-   console.log(from)
+    console.log(from)
 
 
     const handleClick = (selectedWork) => history.push(`/work/${selectedWork}`)
@@ -72,7 +72,6 @@ const CarouselSlider = ({ location }) => {
                                     }
                                     // console.log(offset, velocity);
                                 }}
-                                onClick={() => handleClick(project.title)}
 
 
                                 // transition={transition}
@@ -81,10 +80,12 @@ const CarouselSlider = ({ location }) => {
                             >
                                 <img src={project.img} alt='d' />
 
-                                <div className='project-title'>
-                                    <h1>KALAS</h1>
+                                <motion.div className='project-title'
+                                    onTap={() => handleClick(project.title)}
+                                >
+                                    <h1>{project.title}</h1>
 
-                                </div>
+                                </motion.div>
                             </motion.div>
                         )
                     })}
