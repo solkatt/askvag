@@ -13,6 +13,8 @@ import { PCFSoftShadowMap } from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { useGLTF } from '@react-three/drei'
 
+import { useHistory } from 'react-router-dom'
+
 // import Model from './ShapeKeys'
 
 extend({ OrbitControls })
@@ -115,6 +117,8 @@ const Plane = (props) => {
 const ButtonTest = (props) => {
 	const { setCameraPos, changeColor, setMorphState } = props
 
+	const history = useHistory()
+
 	const cameraScene = {
 		home: {
 			x: 1,
@@ -136,8 +140,9 @@ const ButtonTest = (props) => {
 		console.log(props)
 	}
 	return (
-		<div className="navbar">
+		<div className='navbar'>
 			<h1 style={{ fontSize: '3rem' }}>Test</h1>
+			<button onClick={() => history.push('/')}>Home</button>
 			<button onClick={() => showProps()}>Props</button>
 			<button onClick={() => changeColor('red')}>Click</button>
 

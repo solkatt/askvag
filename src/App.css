@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Amatic+SC&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Quattrocento&display=swap');
+
+
 * {
   margin: 0;
   padding: 0;
@@ -16,7 +19,7 @@ canvas {
 
 
 h1 {
-  font-family: 'Amatic SC', cursive;
+  font-family: 'Quattrocento', serif;
   font-size: 10rem;
   color: white;
 }
@@ -26,12 +29,11 @@ h1 {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  z-index: 10; 
+  z-index: 10;
 }
 
-.three-scene {
+.three-scene {}
 
-}
 canvas {
   height: 100vh;
 }

@@ -2,46 +2,46 @@ import React, { useRef, useEffect } from 'react'
 
 import './Projects.css'
 
-
-import { useParams } from 'react-router-dom';
-
+import { useParams } from 'react-router-dom'
 
 import { motion } from 'framer-motion'
 
-import { projectsData } from '../data/projectsData';
+import { projectsData } from '../data/projectsData'
 
-import { HiChevronLeft } from 'react-icons/hi';
+import { HiChevronLeft } from 'react-icons/hi'
+
+import { useHistory } from 'react-router-dom'
 
 
 const transition = { duration: 1.2, ease: [0.43, 0.13, 0.23, 0.96] }
 
 
+
+
+
 const Projects = () => {
+    let { id } = useParams()
 
-    let { id } = useParams();
-
-    const project = projectsData.find(project => {
+    const project = projectsData.find((project) => {
         return project.title === id
     })
 
+    const history = useHistory()
 
     return (
         <>
-
-
+        
             <motion.div
-
-
                 initial='initial'
                 animate={{
                     top: '-25vh',
                 }}
-
-                exit='exit'
+                exit={{
+                    opacity: 0,
+                }}
                 transition={transition}
-                className='project-container'>
-
-
+                className='project-container'
+            >
                 {/* <motion.div
                     className='project-name'
                     initial={{ opacity: 0 }}
@@ -64,25 +64,17 @@ const Projects = () => {
                 </motion.div> */}
 
                 <motion.div
-
-                    initial='initial'
+                    initial={{ borderRadius: '10px' }}
                     animate={{
-
                         width: '100%',
-                        transform: 'translatY(20vh)'
+                        borderRadius: '0px',
                     }}
-
+                    exit={{ transform: '' }}
                     transition={transition}
-                    className='project-image-container'>
-
-                    <img src={project.img}
-                        className="project-image" alt='' />
-
-                    <HiChevronLeft />
-
+                    className='project-image-container'
+                >
+                    <img src={project.img} className='project-image' alt='' />
                 </motion.div>
-
-
 
                 {/* <motion.div className='project-details'
                     initial={{ opacity: 0 }}
@@ -97,14 +89,19 @@ const Projects = () => {
                 </motion.div> */}
 
 
-            </motion.div>
+<button className='back-button'  onClick={() => history.push(
+'/', {from: project.id}
 
+    )}>
+    
+    HOME
+    </button>
+
+
+
+            </motion.div>
         </>
     )
-
 }
-
-
-
 
 export default Projects
