@@ -15,8 +15,8 @@ function App() {
 			<div className='App'>
 				{/* <Hero /> */}
 
-					<Hero />
 			
+				<Hero />
 
 			
 					<Route render={({ location }) => (
@@ -29,8 +29,8 @@ function App() {
 
 								{/* <Hero /> */}
 
-								<Route path="/" exact>
-									<CarouselSlider />
+								<Route path="/d" exact>
+									<CarouselSlider style={{zIndex: 1}} />
 								</Route>
 								<Route path="/work/:id" exact>
 									<Projects />

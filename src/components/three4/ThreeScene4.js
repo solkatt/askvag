@@ -11,12 +11,41 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import * as THREE from 'three'
 import { PCFSoftShadowMap } from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import { useGLTF } from '@react-three/drei'
+import { useGLTF, useAnimations } from '@react-three/drei'
+
+
+///
+///
+
 
 
 // import Model from './ShapeKeys'
+import Effects from './Effects'
 
-extend({ OrbitControls })
+
+extend({ OrbitControls, })
+
+
+const handleMouseMove = () => {
+
+	document.addEventListener('mousemove', (e) => {
+		mouse.x = e.pageX
+		mouse.y = e.pageY
+	})
+
+
+	let mouse = {
+		x: 0,
+		y: 0,
+	}
+
+	return mouse
+
+}
+
+
+
+
 
 const Model = (props) => {
 	const group = useRef()
@@ -45,15 +74,15 @@ const Model = (props) => {
 			morphState.index === 0 && morphState.value === 1
 				? 1
 				: morphState.index === 0 && morphState.value === 0
-				? 0
-				: 0,
+					? 0
+					: 0,
 
 		morphAnim1:
 			morphState.index === 1 && morphState.value === 1
 				? 1
 				: morphState.index === 1 && morphState.value === 0
-				? 0
-				: 0,
+					? 0
+					: 0,
 
 		config: {
 			mass: 1,
@@ -64,7 +93,7 @@ const Model = (props) => {
 		// onRest: () => setDollyFinished(true)
 	})
 
-	useEffect(() => {})
+	useEffect(() => { })
 
 	useFrame(() => {
 		// let scale = (ref.current.scale.x +=
@@ -100,18 +129,102 @@ const Model = (props) => {
 	)
 }
 
-const Plane = (props) => {
+
+const Abstract = (props) => {
+	const group = useRef()
+	const ref = useRef()
+	const { nodes, materials, animations } = useGLTF('/abstractFlow.glb')
+	const { actions } = useAnimations(animations, group)
+
+
+
+
+
+
+	console.log(materials)
+
+	useFrame(() => {
+		group.current.rotation.y -= 0.0002
+		group.current.rotation.x += 0.0002
+
+
+
+		let morphTarget = ref.current.morphTargetInfluences
+
+
+		// morphTarget[1] += 0.01
+		// morphTarget[1] = 1
+	})
+
+
+
+
+
+
+
+
 	return (
-		<mesh
-			rotation={[-Math.PI / 2, 0, 0]}
-			position={[0, -0.5, 0]}
-			receiveShadow
-		>
-			<planeBufferGeometry attach='geometry' args={[100, 100]} />
-			<meshPhysicalMaterial attach='material' color={props.props.color} />
-		</mesh>
+
+
+		<group ref={group} {...props} dispose={null} position={[0, 0, 2]}>
+			<mesh
+				name="abstractFlow"
+				ref={ref}
+				geometry={nodes.abstractFlow.geometry}
+				//   material={materials.orgMaterial}
+				morphTargetDictionary={nodes.abstractFlow.morphTargetDictionary}
+				morphTargetInfluences={nodes.abstractFlow.morphTargetInfluences}
+
+			>
+				<meshPhysicalMaterial attach='material'
+					color='orange'
+					clearcoat='1.0'
+					cleacoatRoughness='0.1'
+					metalness='0.9'
+					roughness='0.1'
+					reflectivity='1'
+				/>
+			</mesh>
+		</group>
 	)
 }
+
+
+const Lights = (props) => {
+
+	const { mouse } = useThree()
+	// const mouse  = handleMouseMove()
+
+	const lightRef = useRef()
+
+	console.log(lightRef)
+	useFrame(() => {
+
+		lightRef.current.position.x = mouse.x * 5
+		lightRef.current.position.y = -(mouse.y * 5)
+		lightRef.current.position.z = -(mouse.y * 5)
+
+
+	})
+
+
+	return (
+		<pointLight ref={lightRef} position={[-1, 5, -5]} penumbra={0.7} castShadow intensity={.25} />
+	)
+}
+
+
+function Rig() {
+	const { camera, mouse } = useThree()
+
+
+	const vec = new THREE.Vector3()
+	return useFrame(() => camera.position.lerp(vec.set(mouse.x * 2, mouse.y * 1, camera.position.z), 0.02))
+}
+
+
+
+
 
 const ButtonTest = (props) => {
 	const { setCameraPos, changeColor, setMorphState } = props
@@ -126,8 +239,8 @@ const ButtonTest = (props) => {
 			ry: 0,
 		},
 		portfolio: {
-			x: 10,
-			y: 5,
+			x: 0,
+			y: 0,
 			z: 3,
 			rx: 0,
 			ry: 0,
@@ -169,7 +282,7 @@ function Dolly(props) {
 	const initCameraPos = {
 		x: 0,
 		y: 0,
-		z: 5,
+		z: 3,
 		rx: 0,
 		ry: 0,
 	}
@@ -209,28 +322,46 @@ function Dolly(props) {
 function Scene(props) {
 	const { cameraPos, morphState } = props
 
+
+
+
+
+
 	return (
 		<Canvas
 			// camera={{ position: [3, 2, 5] }}
 			// camera={{ position: [0, 1, 1] }}
+			concurrent
+			gl={{ antialias: true }}
+
 			onCreated={({ gl }) => {
 				gl.shadowMap.enabled = true
 				gl.shadowMap.type = PCFSoftShadowMap
 			}}
 		>
 			<fog attach='fog' args={['white', 1, 15]} />
-			<ambientLight intensity={1} />
-			<spotLight position={[0, 5, 10]} penumbra={0.7} castShadow />
+			{/* <ambientLight intensity={1} /> */}
+			{/* <spotLight position={[0, 5, 10]} penumbra={0.7} castShadow /> */}
+
+			<Lights />
 			{/* <Controls /> */}
 
 			<Suspense fallback={null}>
 				{/* <Model position={[0, 1, 0]}/> */}
 
 				{/* <Obj /> */}
-				<Model morphState={morphState} receiveShadow castShadow />
+				{/* <Model morphState={morphState} receiveShadow castShadow /> */}
+
+				<Abstract receiveShadow castShadow />
+
+
+
 			</Suspense>
-			<Plane props={props} receiveShadow />
 			<Dolly cameraPos={cameraPos} />
+			<Rig />
+			<Effects />
+
+
 		</Canvas>
 	)
 }
@@ -258,3 +389,6 @@ export default function ThreeScene3() {
 }
 
 useGLTF.preload('/ShapeKeys.glb')
+
+useGLTF.preload('/abstractFlow.glb')
+
