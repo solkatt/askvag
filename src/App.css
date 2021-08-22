@@ -17,6 +17,12 @@ canvas {
 
 }
 
+.App {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
 
 h1 {
   font-family: 'Quattrocento', serif;
@@ -24,7 +30,9 @@ h1 {
   color: white;
 }
 
-.three-scene {}
+.three-scene {
+  height: 100vh;
+}
 
 canvas {
   height: 100vh;

@@ -30,7 +30,10 @@ const Projects = () => {
 
     return (
         <>
-        
+
+
+
+
             <motion.div
                 initial='initial'
                 animate={{
@@ -63,6 +66,7 @@ const Projects = () => {
 
                 </motion.div> */}
 
+
                 <motion.div
                     initial={{ borderRadius: '10px' }}
                     animate={{
@@ -76,30 +80,33 @@ const Projects = () => {
                     <img src={project.img} className='project-image' alt='' />
                 </motion.div>
 
-                {/* <motion.div className='project-details'
+                <motion.div className='project-details'
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                 >
-                    <h2>Details</h2>
                     <h1 style={{ color: 'green' }}>{project.title}</h1>
                     <h4 style={{ color: 'green' }}>{project.description}</h4>
+                    <h1 style={{color: 'green'}}>Details</h1>
+
+               
+                </motion.div>
 
 
 
-                </motion.div> */}
-
-
-<button className='back-button'  onClick={() => history.push(
-'/', {from: project.id}
-
-    )}>
-    
-    HOME
-    </button>
 
 
 
             </motion.div>
+
+            {/* 
+            <button className='back-button' onClick={() => history.push(
+                    '/', { from: project.id }
+
+                )}>
+
+                    HOME
+                </button> */}
+
         </>
     )
 }

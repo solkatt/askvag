@@ -19,7 +19,7 @@ export default function Effects() {
   useEffect(() => void composer.current.setSize(size.width, size.height), [size])
   useFrame(() => composer.current.render(), 2)
   return (
-    <effectComposer ref={composer} args={[gl]}>
+    <effectComposer ref={composer} args={[gl]} key={aspect.width}>
       <renderPass attachArray="passes" scene={scene} camera={camera} />
       <sSAOPass attachArray="passes" args={[scene, camera]} kernelRadius={0.6} maxDistance={0.03} />
       <unrealBloomPass attachArray="passes" args={[aspect, 2, 1, 0.991]} />

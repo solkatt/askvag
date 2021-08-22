@@ -193,7 +193,7 @@ const Abstract = (props) => {
 const Lights = (props) => {
 
 	const { mouse } = useThree()
-	// const mouse  = handleMouseMove()
+// const mouse  = handleMouseMove()
 
 	const lightRef = useRef()
 
@@ -203,6 +203,8 @@ const Lights = (props) => {
 		lightRef.current.position.x = mouse.x * 5
 		lightRef.current.position.y = -(mouse.y * 5)
 		lightRef.current.position.z = -(mouse.y * 5)
+
+		// console.log('x:', mouse.x / 500 - .5)
 
 
 	})
@@ -341,7 +343,7 @@ function Scene(props) {
 		>
 			<fog attach='fog' args={['white', 1, 15]} />
 			{/* <ambientLight intensity={1} /> */}
-			{/* <spotLight position={[0, 5, 10]} penumbra={0.7} castShadow /> */}
+			{/* <spotLight position={[0, 5, 10]} penumbra={0.7} castShadow intensity={0.1} /> */}
 
 			<Lights />
 			{/* <Controls /> */}

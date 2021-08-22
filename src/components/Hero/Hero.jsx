@@ -15,7 +15,9 @@ export default function Hero() {
 			{/* <div className='askvag'><h1>ÅSKVÅG</h1></div> */}
 			<motion.div
 			initial='initial'
-			exit={{opacity: 0}}>
+			exit={{opacity: 0}}
+
+			>
 			<ThreeScene4 className='three-scene' />
 
 			</motion.div>
