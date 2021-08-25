@@ -85,8 +85,8 @@ const CarouselSlider = () => {
                                 <motion.div className='project-title'
                                     onTap={() => handleClick(project.title)}
                                 >
-                                    <h1>{project.title}</h1>
 
+                                    <h1>{project.title}</h1>
                                 </motion.div>
                             </motion.div>
                         )

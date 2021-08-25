@@ -2,7 +2,10 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Quattrocento&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Forum&display=swap');
 
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap');
 * {
   margin: 0;
   padding: 0;
@@ -17,6 +20,8 @@ canvas {
 
 }
 
+
+
 .App {
   position: absolute;
   height: 100%;
@@ -25,13 +30,24 @@ canvas {
 }
 
 h1 {
-  font-family: 'Quattrocento', serif;
+  font-family: 'Forum', cursive;
   font-size: 10rem;
   color: white;
 }
 
+p {
+  font-family: 'Lato', sans-serif;
+  font-weight: 600;
+
+}
+
+
 .three-scene {
   height: 100vh;
+}
+
+h2 {
+  font-family: 'Quattrocento', serif;
 }
 
 canvas {

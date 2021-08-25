@@ -35,9 +35,14 @@ const Projects = () => {
 
 
             <motion.div
-                initial='initial'
+                initial={{
+                    background:'rgba(10, 13, 13, 0)'
+
+                }}
                 animate={{
                     top: '-25vh',
+                    background:'rgba(10, 13, 13, 0.6)'
+
                 }}
                 exit={{
                     opacity: 0,
@@ -68,10 +73,11 @@ const Projects = () => {
 
 
                 <motion.div
-                    initial={{ borderRadius: '10px' }}
+                    initial={{ borderRadius: '2px' }}
                     animate={{
                         width: '100%',
                         borderRadius: '0px',
+                        height: '40vh'
                     }}
                     exit={{ transform: '' }}
                     transition={transition}
@@ -80,15 +86,57 @@ const Projects = () => {
                     <img src={project.img} className='project-image' alt='' />
                 </motion.div>
 
-                <motion.div className='project-details'
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                >
-                    <h1 style={{ color: 'green' }}>{project.title}</h1>
-                    <h4 style={{ color: 'green' }}>{project.description}</h4>
-                    <h1 style={{color: 'green'}}>Details</h1>
+                <motion.div className='project-details-container'
+                    initial={{
+                        opacity: 0,
+                        top: '85vh'
+                    }}
+                    animate={{
+                        opacity: 1,
+                        top: '65vh'
+                    }}
+                    transition={transition}
 
-               
+                >
+
+                    <div className="project-details">
+
+
+                        <h1 className="work-title">{project.title}</h1>
+                        <div className="work-description-container">
+                            <p>{project.description}</p>
+                            <div>
+                                <span>Project</span>
+                                <p>Web Development | 3D Design</p>
+                                <span >Stack</span>
+                                <p>React | Sass | Sanity | TypeScript | Blender</p>
+                                <span>Client</span>
+                                <p>Fengersfors Bruksbryggeri</p>
+                            </div>
+                        </div>
+                        <p className='work-link'>www.website.com</p>
+
+
+                    </div>
+
+                    <div className='work-gallery'>
+                        <img src="/img/kalasstrumpa/kalasstrumpa1.png" alt="" />
+                        <p className='big-paragraph'>{project.description}</p>
+                        <p className='big-paragraph'>{project.description}</p>
+                        <img src="/img/kalasstrumpa/kalasstrumpa2.png" alt="" />
+
+
+                    </div>
+                    <img className='work-wide-img'src={project.img} alt='' />
+                    <div className='work-footer'>
+                    <p>link1</p>
+                    <p>link2</p>
+                    <p>link3</p>
+                    <p>link4</p>
+                    <p>link5</p>
+
+                    </div>
+
                 </motion.div>
 
 
