@@ -137,11 +137,11 @@ const Abstract = (props) => {
 	const { actions } = useAnimations(animations, group)
 
 
+	let {color} = props
 
 
 
-
-	console.log(materials)
+	// console.log(materials)
 
 	useFrame(() => {
 		group.current.rotation.y -= 0.0002
@@ -177,7 +177,7 @@ const Abstract = (props) => {
 
 			>
 				<meshPhysicalMaterial attach='material'
-					color='orange'
+					color={color}
 					clearcoat='1.0'
 					cleacoatRoughness='0.1'
 					metalness='0.9'
@@ -192,19 +192,22 @@ const Abstract = (props) => {
 
 const Lights = (props) => {
 
-	const { mouse } = useThree()
-// const mouse  = handleMouseMove()
+	// const { mouse } = useThree()
+const mouse  = handleMouseMove()
+
 
 	const lightRef = useRef()
 
-	console.log(lightRef)
+	// console.log(lightRef)
 	useFrame(() => {
 
-		lightRef.current.position.x = mouse.x * 5
-		lightRef.current.position.y = -(mouse.y * 5)
-		lightRef.current.position.z = -(mouse.y * 5)
+		lightRef.current.position.x =  -((mouse.x / window.innerWidth) -0.5) * 15
+		lightRef.current.position.y =  ((mouse.y / window.innerHeight) -0.5) * 5
+		lightRef.current.position.z = -((mouse.y / window.innerHeight) -0.5) *10
 
 		// console.log('x:', mouse.x / 500 - .5)
+
+		console.log(lightRef.current.position.x)
 
 
 	})
@@ -218,6 +221,8 @@ const Lights = (props) => {
 
 function Rig() {
 	const { camera, mouse } = useThree()
+	
+	// const mouse = handleMouseMove()
 
 
 	const vec = new THREE.Vector3()
@@ -256,7 +261,7 @@ const ButtonTest = (props) => {
 		<div className='navbar'>
 			<h1 style={{ fontSize: '3rem' }}>Test</h1>
 			<button onClick={() => showProps()}>Props</button>
-			<button onClick={() => changeColor('red')}>Click</button>
+			<button onClick={() => changeColor('red')}>Change Color</button>
 
 			<button onClick={() => setCameraPos(cameraScene.home)}>
 				MENU 1
@@ -321,13 +326,10 @@ function Dolly(props) {
 	return null
 }
 
+
+
 function Scene(props) {
-	const { cameraPos, morphState } = props
-
-
-
-
-
+	const { cameraPos, morphState, color } = props
 
 	return (
 		<Canvas
@@ -354,7 +356,7 @@ function Scene(props) {
 				{/* <Obj /> */}
 				{/* <Model morphState={morphState} receiveShadow castShadow /> */}
 
-				<Abstract receiveShadow castShadow />
+				<Abstract receiveShadow castShadow color={color}/>
 
 
 
@@ -368,19 +370,19 @@ function Scene(props) {
 	)
 }
 
-export default function ThreeScene3() {
-	const [color, setColor] = useState('white')
-	const [cameraPos, setCameraPos] = useState({ x: 0, y: 0, z: 5 })
-	const [morphState, setMorphState] = useState({ index: 0, value: 0 })
+export default function ThreeScene3(props) {
+
+	let {cameraPos, color, morphState} = props
+
+
+	// const [color, setColor] = useState('white')
+	// const [cameraPos, setCameraPos] = useState({ x: 0, y: 0, z: 5 })
+	// const [morphState, setMorphState] = useState({ index: 0, value: 0 })
 
 	return (
 		<>
 			{/* <h1>{cameraPos}</h1> */}
-			<ButtonTest
-				changeColor={setColor}
-				setCameraPos={setCameraPos}
-				setMorphState={setMorphState}
-			/>
+		
 			<Scene
 				color={color}
 				cameraPos={cameraPos}

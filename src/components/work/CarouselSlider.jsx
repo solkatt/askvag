@@ -14,12 +14,14 @@ const swipePower = (offset, velocity) => {
     return Math.abs(offset) * velocity
 }
 
-const CarouselSlider = () => {
+const CarouselSlider = (props) => {
 
     const history = useHistory()
     const { state } = history.location
 
     // history.location.state.from ? || {}
+
+    let {setCameraPos} = props
 
     const [position, setPosition] = useState(!state ? 0 : state.from)
 
@@ -28,9 +30,26 @@ const CarouselSlider = () => {
         setPosition(position + newDirection)
     }
 
+    // useEffect(() => {
+    //     setCameraPos({
+	// 		x: 1,
+	// 		y: 2,
+	// 		z: 3,
+	// 		rx: 0,
+	// 		ry: 0,
+	// 	})
+    // })
 
-
-    const handleClick = (selectedWork) => history.push(`/work/${selectedWork}`)
+    const handleClick = (selectedWork) => {
+        history.push(`/work/${selectedWork}`) 
+        setCameraPos({
+			x: 0,
+			y: 0,
+			z: 3,
+			rx: 0,
+			ry: 0,
+		})
+    }
 
     return (
         <>
@@ -44,7 +63,8 @@ const CarouselSlider = () => {
                                 initial={{
                                     opacity: 0,
                                     scale: 1.2,
-                                    left: `${(index - position) * 70 - 30}vw`
+                                    left: `${(index - position) * 70 - 30}vw`,
+
                                 }}
                                 animate={{
 
@@ -75,9 +95,7 @@ const CarouselSlider = () => {
                                     // console.log(offset, velocity);
                                 }}
 
-
                                 // transition={transition}
-
                                 exit={index === position ? '' : { opacity: 0 }}
                             >
                                 <img src={project.img} alt='d' />
@@ -86,7 +104,20 @@ const CarouselSlider = () => {
                                     onTap={() => handleClick(project.title)}
                                 >
 
-                                    <h1>{project.title}</h1>
+                                    <motion.h1
+                                        intial={{   
+                                            scale: 1
+                                    }}
+                                        exit={{
+                                            opacity: 0,
+                                            scale: 2,
+                                            
+
+
+                                        }}
+
+                                        transition={transition}
+                                    >{project.title}</motion.h1>
                                 </motion.div>
                             </motion.div>
                         )

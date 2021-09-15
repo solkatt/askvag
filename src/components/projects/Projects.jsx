@@ -4,11 +4,11 @@ import './Projects.css'
 
 import { useParams } from 'react-router-dom'
 
-import { motion } from 'framer-motion'
+import { animate, motion, transform } from 'framer-motion'
 
 import { projectsData } from '../data/projectsData'
 
-import { HiChevronLeft } from 'react-icons/hi'
+import { RiCloseCircleLine } from 'react-icons/ri'
 
 import { useHistory } from 'react-router-dom'
 
@@ -17,9 +17,32 @@ const transition = { duration: 1.2, ease: [0.43, 0.13, 0.23, 0.96] }
 
 
 
+const containerVariants = {
+    hidden: {
+        opacity: 0,
+        x: '100v',
+    },
+    visible: {
+        opacity: 1,
+        x: 0,
+        transition: {
+            type: 'spring',
+            delay: 0.5
+        }
+    },
 
 
-const Projects = () => {
+}   
+
+
+//// example
+
+
+const Projects = (props) => {
+
+
+    let {setCameraPos} = props
+
     let { id } = useParams()
 
     const project = projectsData.find((project) => {
@@ -27,6 +50,16 @@ const Projects = () => {
     })
 
     const history = useHistory()
+
+
+
+    
+const handleBackBtn = (id) => {
+    history.push('/', { from: id }
+ )
+ 
+ }
+ 
 
     return (
         <>
@@ -36,12 +69,11 @@ const Projects = () => {
 
             <motion.div
                 initial={{
-                    background:'rgba(10, 13, 13, 0)'
-
+                    background: 'rgba(10, 13, 13, 0)',
                 }}
                 animate={{
                     top: '-25vh',
-                    background:'rgba(10, 13, 13, 0.6)'
+                    background: 'rgba(2, 2, 2, .8)'
 
                 }}
                 exit={{
@@ -114,7 +146,7 @@ const Projects = () => {
                                 <p>Fengersfors Bruksbryggeri</p>
                             </div>
                         </div>
-                        <p className='work-link'>www.website.com</p>
+                        <p className='work-link'>{project.website}</p>
 
 
                     </div>
@@ -127,13 +159,13 @@ const Projects = () => {
 
 
                     </div>
-                    <img className='work-wide-img'src={project.img} alt='' />
+                    <img className='work-wide-img' src={project.img} alt='' />
                     <div className='work-footer'>
-                    <p>link1</p>
-                    <p>link2</p>
-                    <p>link3</p>
-                    <p>link4</p>
-                    <p>link5</p>
+                        <p>link1</p>
+                        <p>link2</p>
+                        <p>link3</p>
+                        <p>link4</p>
+                        <p>link5</p>
 
                     </div>
 
@@ -146,14 +178,23 @@ const Projects = () => {
 
             </motion.div>
 
-            {/* 
-            <button className='back-button' onClick={() => history.push(
-                    '/', { from: project.id }
 
-                )}>
 
-                    HOME
-                </button> */}
+            <motion.div 
+            className='back-button' 
+            onClick={() => handleBackBtn(project.id)}
+            
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            exit={{opacity: 0}}
+            transition={{transition}}
+
+            
+            >
+
+                <RiCloseCircleLine />
+
+            </motion.div>
 
         </>
     )

@@ -9,7 +9,9 @@ import './Hero.css'
 import CarouselSlider from '../work/CarouselSlider'
 
 
-export default function Hero() {
+export default function Hero(props) {
+	let {cameraPos, color, morphState} = props
+
 	return (
 		<div className='hero-container'>
 			{/* <div className='askvag'><h1>ÅSKVÅG</h1></div> */}
@@ -18,7 +20,7 @@ export default function Hero() {
 			exit={{opacity: 0}}
 
 			>
-			<ThreeScene4 className='three-scene' />
+			<ThreeScene4 className='three-scene' cameraPos={cameraPos} color={color} morphState={morphState}/>
 
 			</motion.div>
 

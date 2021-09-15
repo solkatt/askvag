@@ -17,7 +17,6 @@
   /* background: rgba(10, 13, 13, 0.6); */
 
 
-
 }
 
 
@@ -67,6 +66,7 @@
   /* padding: 0 8em 2em 8em; */
   padding-left: clamp(1em, 1em + 10vw, 8em);
   padding-right: clamp(1em, 1em + 10vw, 8em);
+/* padding: 0 15rem 0 15rem ; */
   padding-bottom: 2em;
   color: white;
   height: 60vh;
@@ -100,7 +100,7 @@
 
 .work-description-container>p {
   max-width: 30vw;
-  font-size: clamp(0.8rem,0.8rem + 1vw, 1.6rem);
+  font-size: clamp(0.8rem, 0.8rem + 1vw, 1.6rem);
   color: #f1f1f1;
   /* font-weight: 100; */
   line-height: 2.2rem;
@@ -190,90 +190,6 @@
 }
 
 
-@media screen and (max-width: 790px) {
-
-  .project-details {
-    padding: 0 3vw;
-    /* padding-left: clamp(0.2em, 0.2em + 10vw, 8em);
-    padding-right: clamp(0.2em, 0.2em + 10vw, 8em); */
-
-  }
-
-  .work-title {
-    font-size: clamp(2.8rem, 0.9rem + 10vw, 7rem);
-
-
-    margin: 0 1.2vw 0 0;
-  
-  }
- 
-
-
-  .work-description-container {
-    flex-direction: column;
-
-  }
-
-
-  .work-description-container>p {
-    max-width: 80vw;
-    margin-bottom: 4vw;
-   line-height: 1.3rem;
-
-
-  }
-
-
-
-  .work-description-container>div {
-    max-width: 80vw;
-    margin-bottom: 2vw;
-  
-  }
-
-  .work-description-container>div>span {
-  
-    font-size: clamp(0.6rem, 0.6rem + 0.6vw, 1rem);
-  
-  
-  }
-  
-
-  
-  .work-link {
-  order: 2;
-  font-size: clamp(0.7rem, 0.7rem + 0.7vw, 1rem);
-  margin-bottom: 0.5rem;
-
-  }
-
-
-
-
-  .work-gallery {
-    flex-direction: column;
-    flex-wrap: nowrap;
-    
-  }
-
-
-
-  .work-gallery>p:nth-of-type(2) {
-    order: 2;
-    transform: translateY(0);
-  }
-
-  .work-gallery>img {
-    max-width: 80vw;
-    margin: 10vw;
-  }
-  
-  .work-gallery>img:nth-of-type(2) {
-    transform: translateY(0);
-    order: 1;
-  }
-}
-
 .work-wide-img {
   /* position: relative; */
   margin-top: 15rem;
@@ -294,9 +210,17 @@
 
 .back-button {
   position: absolute;
-  bottom: 0;
-  background: red;
+  top: 1rem;
+  left: 50%;
+  color: white;
+  font-size: 2rem;
+  z-index: 10;
 
+}
+
+.back-button:hover {
+  cursor: pointer;
+  scale: 1.5;
 }
 
 ::-webkit-scrollbar {
@@ -304,4 +228,93 @@
   /* Remove scrollbar space */
   background: transparent;
   /* Optional: just make scrollbar invisible */
+}
+
+
+
+
+
+
+@media screen and (max-width: 790px) {
+
+  .project-details {
+    padding: 0 3vw;
+    /* padding-left: clamp(0.2em, 0.2em + 10vw, 8em);
+    padding-right: clamp(0.2em, 0.2em + 10vw, 8em); */
+
+  }
+
+  .work-title {
+    font-size: clamp(2.8rem, 0.9rem + 10vw, 7rem);
+
+
+    margin: 0 1.2vw 0 0;
+
+  }
+
+
+
+  .work-description-container {
+    flex-direction: column;
+
+  }
+
+
+  .work-description-container>p {
+    max-width: 80vw;
+    margin-bottom: 4vw;
+    line-height: 1.3rem;
+
+
+  }
+
+
+
+  .work-description-container>div {
+    max-width: 80vw;
+    margin-bottom: 2vw;
+
+  }
+
+  .work-description-container>div>span {
+
+    font-size: clamp(0.6rem, 0.6rem + 0.6vw, 1rem);
+
+
+  }
+
+
+
+  .work-link {
+    order: 2;
+    font-size: clamp(0.7rem, 0.7rem + 0.7vw, 1rem);
+    margin-bottom: 0.5rem;
+
+  }
+
+
+
+
+  .work-gallery {
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+  }
+
+
+
+  .work-gallery>p:nth-of-type(2) {
+    order: 2;
+    transform: translateY(0);
+  }
+
+  .work-gallery>img {
+    max-width: 80vw;
+    margin: 10vw;
+  }
+
+  .work-gallery>img:nth-of-type(2) {
+    transform: translateY(0);
+    order: 1;
+  }
 }
