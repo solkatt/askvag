@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Amatic+SC&display=swap');
 
 @import url('https://fonts.googleapis.com/css2?family=Quattrocento&display=swap');
 
 @import url('https://fonts.googleapis.com/css2?family=Forum&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Caudex&display=swap');
 
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap');
 * {
@@ -31,6 +31,8 @@ canvas {
 
 h1 {
   font-family: 'Forum', cursive;
+ 
+  font-family: 'Caudex', serif;
   font-size: 10rem;
   color: white;
 }

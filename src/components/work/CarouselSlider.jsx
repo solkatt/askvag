@@ -8,6 +8,7 @@ import { FaBeer } from 'react-icons/fa'
 import { projectsData } from '../data/projectsData'
 
 const transition = { duration: 1.2, ease: [0.43, 0.13, 0.23, 0.96] }
+const transitionTitle = { duration: 2, ease: [0.43, 0.13, 0.23, 0.96] }
 
 const swipeConfidenceThreshold = 5000
 const swipePower = (offset, velocity) => {
@@ -21,7 +22,7 @@ const CarouselSlider = (props) => {
 
     // history.location.state.from ? || {}
 
-    let {setCameraPos} = props
+    let { setCameraPos } = props
 
     const [position, setPosition] = useState(!state ? 0 : state.from)
 
@@ -32,23 +33,23 @@ const CarouselSlider = (props) => {
 
     // useEffect(() => {
     //     setCameraPos({
-	// 		x: 1,
-	// 		y: 2,
-	// 		z: 3,
-	// 		rx: 0,
-	// 		ry: 0,
-	// 	})
+    // 		x: 1,
+    // 		y: 2,
+    // 		z: 3,
+    // 		rx: 0,
+    // 		ry: 0,
+    // 	})
     // })
 
     const handleClick = (selectedWork) => {
-        history.push(`/work/${selectedWork}`) 
+        history.push(`/work/${selectedWork}`)
         setCameraPos({
-			x: 0,
-			y: 0,
-			z: 3,
-			rx: 0,
-			ry: 0,
-		})
+            x: 0,
+            y: 0,
+            z: 3,
+            rx: 0,
+            ry: 0,
+        })
     }
 
     return (
@@ -63,7 +64,9 @@ const CarouselSlider = (props) => {
                                 initial={{
                                     opacity: 0,
                                     scale: 1.2,
+                                    rigth: 0,
                                     left: `${(index - position) * 70 - 30}vw`,
+                                    transform: 'translateX(0)'
 
                                 }}
                                 animate={{
@@ -96,7 +99,7 @@ const CarouselSlider = (props) => {
                                 }}
 
                                 // transition={transition}
-                                exit={index === position ? '' : { opacity: 0 }}
+                                exit={index === position ? '' : { transform: 'translateX(-50%)', opacity: 0 }}
                             >
                                 <img src={project.img} alt='d' />
 
@@ -105,20 +108,14 @@ const CarouselSlider = (props) => {
                                 >
 
                                     <motion.h1
-                                        intial={{   
-                                            scale: 1
-                                    }}
-                                        exit={{
-                                            opacity: 0,
-                                            scale: 2,
-                                            
-
-
+                                        intial={{
+                                            scale: 1,
                                         }}
-
+                                        exit={index === position ? { scale: 1.2, opacity: 0 } : { opacity: 0 }}
                                         transition={transition}
                                     >{project.title}</motion.h1>
                                 </motion.div>
+                                <p style={{ color: 'rgba(255,255,255,0.2)', fontWeight: 100, }}>AUDIOVISUAL</p>
                             </motion.div>
                         )
                     })}

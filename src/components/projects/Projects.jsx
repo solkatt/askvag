@@ -32,7 +32,7 @@ const containerVariants = {
     },
 
 
-}   
+}
 
 
 //// example
@@ -41,7 +41,7 @@ const containerVariants = {
 const Projects = (props) => {
 
 
-    let {setCameraPos} = props
+    let { setCameraPos } = props
 
     let { id } = useParams()
 
@@ -53,13 +53,13 @@ const Projects = (props) => {
 
 
 
-    
-const handleBackBtn = (id) => {
-    history.push('/', { from: id }
- )
- 
- }
- 
+
+    const handleBackBtn = (id) => {
+        history.push('/', { from: id }
+        )
+
+    }
+
 
     return (
         <>
@@ -136,6 +136,7 @@ const handleBackBtn = (id) => {
 
                         <h1 className="work-title">{project.title}</h1>
                         <div className="work-description-container">
+                            {/* <h2 className="work-title" style={{fontSize: '2rem'}}>{project.subtitle}</h2> */}
                             <p>{project.description}</p>
                             <div>
                                 <span>Project</span>
@@ -180,16 +181,16 @@ const handleBackBtn = (id) => {
 
 
 
-            <motion.div 
-            className='back-button' 
-            onClick={() => handleBackBtn(project.id)}
-            
-            initial={{opacity: 0}}
-            animate={{opacity: 1}}
-            exit={{opacity: 0}}
-            transition={{transition}}
+            <motion.div
+                className='back-button'
+                onClick={() => handleBackBtn(project.id)}
 
-            
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ transition }}
+
+
             >
 
                 <RiCloseCircleLine />
